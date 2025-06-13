@@ -83,14 +83,14 @@ export class NotesListComponent {
   }
 
   loadNotes(): void {
-    this.http.get<Note[]>(`http://localhost:3000/api/notes/${this.email}`).subscribe(notes => {
+    this.http.get<Note[]>(`https://mynotes-backend-03ya.onrender.com/api/notes/${this.email}`).subscribe(notes => {
       this.notes.set(notes);
       this.nextId = Math.max(0, ...notes.map(n => n.id)) + 1;
     });
   }
 
   loadTags(): void {
-    this.http.get<string[]>(`http://localhost:3000/api/notes/${this.email}/tags`)
+    this.http.get<string[]>(`https://mynotes-backend-03ya.onrender.com/api/notes/${this.email}/tags`)
       .subscribe(tags => this.allUserTags.set(tags));
   }
 
@@ -108,7 +108,7 @@ export class NotesListComponent {
           ...result,
         };
 
-        this.http.post<Note>(`http://localhost:3000/api/notes`, {
+        this.http.post<Note>(`https://mynotes-backend-03ya.onrender.com/api/notes`, {
           email: this.email,
           ...newNote,
         }).subscribe(created => {
@@ -126,14 +126,14 @@ export class NotesListComponent {
     ref.afterClosed().subscribe((tag: string | undefined) => {
       if (!tag) return;
 
-      this.http.post(`http://localhost:3000/api/notes/${this.email}/tags`, { tag })
+      this.http.post(`https://mynotes-backend-03ya.onrender.com/api/notes/${this.email}/tags`, { tag })
         .subscribe(() => {
           this.loadTags();
         });
     });
   }
   removeNote(id: number): void {
-    this.http.delete(`http://localhost:3000/api/notes/${this.email}/${id}`).subscribe(() => {
+    this.http.delete(`https://mynotes-backend-03ya.onrender.com/api/notes/${this.email}/${id}`).subscribe(() => {
       this.notes.update(notes => notes.filter(n => n.id !== id));
     });
   }
@@ -164,7 +164,7 @@ export class NotesListComponent {
           ...result,
         };
 
-        this.http.put<Note>(`http://localhost:3000/api/notes/${this.email}/${note.id}`, updatedNote)
+        this.http.put<Note>(`https://mynotes-backend-03ya.onrender.com/api/notes/${this.email}/${note.id}`, updatedNote)
           .subscribe((saved) => {
             this.notes.update(notes =>
               notes.map(n => (n.id === note.id ? saved : n))

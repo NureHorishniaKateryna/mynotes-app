@@ -37,7 +37,7 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.form.invalid) return;
 
-    this.http.post<any>('http://localhost:3000/api/auth/login', this.form.value).subscribe({
+    this.http.post<any>('https://mynotes-backend-03ya.onrender.com/api/auth/login', this.form.value).subscribe({
       next: (res) => {
         console.log("RES", res)
         localStorage.setItem('username', res.user.username);

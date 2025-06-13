@@ -37,9 +37,10 @@ export class RegisterComponent {
   onSubmit(): void {
     if (this.form.invalid) return;
 
-    this.http.post<any>('http://localhost:3000/api/auth/register', this.form.value).subscribe({
+    this.http.post<any>('https://mynotes-backend-03ya.onrender.com/api/auth/register', this.form.value).subscribe({
       next: () => {
         localStorage.setItem('userEmail', this.form.value.email);
+        localStorage.setItem('username', this.form.value.username);
         this.router.navigate(['/notes']);
       },
       error: () => alert('User already exists'),
