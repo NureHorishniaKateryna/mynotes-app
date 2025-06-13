@@ -1,0 +1,22 @@
+.note-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.no-tags-msg {
+  font-style: italic;
+  color: #888;
+  margin: 8px 0 12px;
+}

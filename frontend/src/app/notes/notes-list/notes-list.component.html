@@ -1,0 +1,94 @@
+<mat-toolbar color="primary" class="toolbar">
+  <span class="app-name">MyNotes</span>
+  <span class="spacer"></span>
+  <div>
+    <span class="user-info">Logged in as <strong>{{ username}}</strong></span>
+    <button mat-raised-button color="accent" (click)="logout()">Logout</button>
+  </div>
+</mat-toolbar>
+
+<div class="notes-container">
+  <div class="controls">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search</mat-label>
+      <input
+        matInput
+        [ngModel]="search()"
+        (ngModelChange)="search.set($event)"
+        placeholder="Search notes..."
+      />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="openAddNoteDialog()">
+      + Add Note
+    </button>
+
+    <button mat-raised-button color="accent" (click)="openAddTagDialog()">
+      + Add Tag
+    </button>
+  </div>
+
+  <div class="tag-filter-list" *ngIf="allTags().length">
+    <span class="filter-label">Filter by tag:</span>
+    <mat-chip-set>
+      <mat-chip
+        *ngFor="let tag of allUserTags()"
+        (click)="setTagFilter(tag)"
+        [ngClass]="{ 'selected-tag': tagFilter() === tag }"
+        class="clickable-chip"
+        [color]="tagFilter() === tag ? 'primary' : undefined"
+      >
+        {{ tag }}
+      </mat-chip>
+      <mat-chip
+        *ngIf="tagFilter()"
+        class="clickable-chip clear-chip"
+        color="warn"
+        (click)="clearTagFilter()"
+      >
+        Clear Filter
+      </mat-chip>
+    </mat-chip-set>
+
+  </div>
+
+
+  <div class="note-list">
+    <mat-card *ngFor="let note of filteredNotes()" class="note-card improved">
+      <div class="note-header">
+        <div>
+          <h2 class="note-title">{{ note.title }}</h2>
+          <p class="note-dates">
+            <mat-icon inline>Created at</mat-icon>
+            {{ note.createdAt | date:'short' }}
+            &nbsp;•&nbsp;
+            <mat-icon inline>Updated at</mat-icon>
+            {{ note.updatedAt | date:'short' }}
+          </p>
+        </div>
+      </div>
+
+      <div class="note-body">
+        <p class="note-content">{{ note.content }}</p>
+
+        <div class="note-tags" *ngIf="note.tags.length">
+          <mat-chip-set>
+            <mat-chip
+              *ngFor="let tag of note.tags"
+              (click)="setTagFilter(tag)"
+              class="clickable-chip"
+            >
+              {{ tag }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+      </div>
+
+      <div class="note-actions">
+        <button mat-raised-button color="primary" (click)="openEditNoteDialog(note)">Edit</button>
+        <button mat-raised-button color="warn" (click)="removeNote(note.id)">Delete</button>
+      </div>
+    </mat-card>
+
+  </div>
+</div>
